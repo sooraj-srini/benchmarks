@@ -1,5 +1,5 @@
-let num_elems = 2_000_000
-let num_threads = 1
+let num_elems = 200_000
+let num_threads = 1 
 
 (* A write heavy workload with threads with 50% adds and 50% removes. *)
 let write_heavy_workload () = 
@@ -53,10 +53,11 @@ let read_heavy_workload () =
       let start_time = Unix.gettimeofday () in 
       for i = 0 to (num_elems - 1) do ( 
         Domain.cpu_relax ();
-        if i mod 1000 < 2000 then 
-          Atomicskiplist.add sl elems.(i) |> ignore
-        else if i mod 1000 >= 200 && i mod 1000 < 300 then 
-          Atomicskiplist.remove sl elems.(i) |> ignore
+        let prob = Random.float 1.0 in 
+        if prob < 0.2 then 
+          Atomicskiplist.add sl (Random.int 10000) |> ignore
+        else if prob >= 0.2 && prob < 0.3 then 
+          Atomicskiplist.remove sl (Random.int 10000) |> ignore
         else 
           Atomicskiplist.find sl elems.(i) |> ignore
       )

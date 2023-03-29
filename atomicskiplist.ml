@@ -1,13 +1,13 @@
 type 'a markable_reference = { node : 'a; marked : bool }
 (** markable reference: stores a reference to a node and has a field to specify if it is marked *)
 
-type 'a node = {
+type node = {
   key : int;
   height : int;
-  next : 'a node markable_reference Atomic.t array;
+  next : node markable_reference Atomic.t array;
 }
 
-type 'a t = { head : 'a node }
+type t = { head : node }
 
 let null_node = {key = Int.max_int; height = 0; next = [||]}
 
@@ -21,7 +21,7 @@ let create_new_node value height =
 
 (** create_dummy_node_array: Creates a new array with the different node for each index *)
 let create_dummy_node_array () =
-  let arr = Array.init (max_height + 1) (fun _ -> create_new_node Int.max_int max_height)
+  let arr = Array.make (max_height+1) null_node
   in
   arr
 
@@ -117,11 +117,10 @@ let add sl key =
     if found then false
     else
       let new_node = create_new_node key top_level in
-      for level = 0 to top_level do
+      Array.iteri (fun level element -> 
         let succ = succs.(level) in
         let mark_ref = { node = succ; marked = false } in
-        Atomic.set new_node.next.(level) mark_ref
-      done;
+        Atomic.set element mark_ref) new_node.next;
       let pred = preds.(0) in
       let succ = succs.(0) in
       if
