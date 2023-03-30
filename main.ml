@@ -1,7 +1,9 @@
 let benchmark_list =
   [
-    Bench_atomic_skiplist.bench ~workload_type:"read_heavy";
-    Bench_atomic_skiplist.bench ~workload_type:"moderate_heavy";
+    Bench_atomic_skiplist.bench ~workload_type:"read_heavy" ~num_elems:200_000 ~num_threads:1;
+    Bench_atomic_skiplist.bench ~workload_type:"moderate_heavy" ~num_elems:200_000 ~num_threads:1;
+    Bench_skiplist.bench ~workload_type:"read_heavy" ~num_elems:200_000 ~num_threads:1;
+    Bench_skiplist.bench ~workload_type:"moderate_heavy" ~num_elems:200_000 ~num_threads:1;
   ]
 
 let () =

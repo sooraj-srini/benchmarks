@@ -1,14 +1,14 @@
 (* A write heavy workload with threads with 50% adds and 50% removes. *)
 let write_heavy_workload num_elems num_threads = 
-  let sl = Atomicskiplist.create () in
+  let sl = Skiplist.create () in
   (* let elems = Array.init num_elems (fun _ -> Random.int 10000) in  *)
   let push = (fun () -> Domain.spawn ( fun () ->
     let start_time = Unix.gettimeofday () in 
     for i = 0 to (num_elems - 1) do ( 
       if (i/2) < num_elems/2 then 
-        Atomicskiplist.add sl (i) |> ignore
+        Skiplist.add (i) 1 sl |> ignore
     else
-        Atomicskiplist.remove sl (i - (num_elems/2)) |> ignore)
+        Skiplist.remove (i - (num_elems/2)) sl |> ignore)
     done;
     start_time
   )) in 
@@ -20,18 +20,18 @@ let write_heavy_workload num_elems num_threads =
 
 (* A regular workload with 90% reads, 9% adds and 1% removes. *)
 let read_heavy_workload num_elems num_threads = 
-  let sl = Atomicskiplist.create () in
+  let sl = Skiplist.create () in
   let elems = Array.init num_elems (fun _ -> Random.int 10000) in 
   let push = (fun () -> Domain.spawn ( fun () ->
     let start_time = Unix.gettimeofday () in 
     for i = 0 to (num_elems - 1) do ( 
       Domain.cpu_relax ();
       if i mod 1000 < 90 then 
-        Atomicskiplist.add sl elems.(i) |> ignore
+        Skiplist.add elems.(i) 1 sl |> ignore
       else if i mod 1000 >= 90 && i mod 1000 < 100 then 
-        Atomicskiplist.remove sl elems.(i) |> ignore
+        Skiplist.remove elems.(i) sl |> ignore
       else 
-        Atomicskiplist.find sl elems.(i) |> ignore
+        Skiplist.find elems.(i) sl |> ignore
     )
     done;
     start_time
@@ -44,7 +44,7 @@ let read_heavy_workload num_elems num_threads =
   
   
   let moderate_heavy_workload num_elems num_threads = 
-    let sl = Atomicskiplist.create () in
+    let sl = Skiplist.create () in
     let elems = Array.init num_elems (fun _ -> Random.int 10000) in 
     let push = (fun () -> Domain.spawn ( fun () ->
       let start_time = Unix.gettimeofday () in 
@@ -52,11 +52,11 @@ let read_heavy_workload num_elems num_threads =
         Domain.cpu_relax ();
         let prob = Random.float 1.0 in 
         if prob < 0.2 then 
-          Atomicskiplist.add sl (Random.int 10000) |> ignore
+          Skiplist.add (Random.int 10000) 1 sl |> ignore
         else if prob >= 0.2 && prob < 0.3 then 
-          Atomicskiplist.remove sl (Random.int 10000) |> ignore
+          Skiplist.remove (Random.int 10000) sl |> ignore
         else 
-          Atomicskiplist.find sl elems.(i) |> ignore
+          Skiplist.find elems.(i) sl |> ignore
       )
       done;
       start_time
@@ -86,4 +86,4 @@ let bench ~workload_type ~num_elems ~num_threads () =
   let results = List.sort Float.compare !results in
   let median_time = List.nth results 4 in
   let median_throughput = Float.of_int num_elems /. median_time in
-  Benchmark_result.create_generic ~median_time ~median_throughput ("atomic_skiplist_"^workload_type)
+  Benchmark_result.create_generic ~median_time ~median_throughput ("sequential_skiplist_"^workload_type)

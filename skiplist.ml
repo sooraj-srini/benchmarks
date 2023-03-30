@@ -75,7 +75,7 @@ let add key value slist =
   in
   if not pres then assign (height - 1) else ()
 
-let remove key value slist =
+let remove key slist =
   let preds = Array.make max_height None in
   let succs = Array.make max_height None in
   let h = slist.head in
