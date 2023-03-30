@@ -7,4 +7,4 @@ tmp
 *.native
 *.byte
 *.merlin
-perf.data
+perf.data*
