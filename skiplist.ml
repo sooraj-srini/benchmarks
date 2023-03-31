@@ -38,12 +38,8 @@ let create_node key =
   { key; height = h; next = Array.make h null_node}
 
 let rec find_in key node level preds succs =
-  (* print_int node.key; *)
-  (* print_newline (); *)
   let next_node = node.next.(level) in 
       if
-        (* print_int next_node.key; *)
-        (* print_newline (); *)
         key > next_node.key
       then find_in key next_node level preds succs
       else (
@@ -53,10 +49,16 @@ let rec find_in key node level preds succs =
         else find_in key node (level - 1) preds succs)
 
 let find slist key =
-  let preds = Array.make max_height null_node in
-  let succs = Array.make max_height null_node in
+  let rec find_in node level =
+    let next_node = node.next.(level) in 
+        if key > next_node.key
+        then find_in next_node level
+        else (
+          if level == 0 then key == next_node.key
+          else find_in node (level - 1))
+  in        
   let h = slist.head in
-  find_in key h (max_height - 1) preds succs
+  find_in h (max_height-1)
 
 let add slist key =
   let new_node = create_node key in

@@ -41,8 +41,6 @@ let create_node key =
 let rec find_in key node level preds succs = Tx.(
   let* next_node = get node.next.(level) in
   if
-    (* print_int next_node.key; *)
-    (* print_newline (); *)
     key > next_node.key
   then find_in key next_node level preds succs
   else (
@@ -53,10 +51,17 @@ let rec find_in key node level preds succs = Tx.(
 )
 
 let find slist key =
-  let preds = Array.make (max_height+1) null_node in
-  let succs = Array.make (max_height+1) null_node in
+  let rec find_in node level = Tx.(
+    let* next_node = get node.next.(level) in
+    if
+      key > next_node.key
+    then find_in next_node level 
+    else (
+      if level == 0 then return (key == next_node.key)
+      else find_in node (level - 1))
+  ) in 
   let h = slist.head in
-  find_in key h max_height preds succs
+  find_in h max_height
 
 let add slist key = Tx.(
   let new_node = create_node key in
