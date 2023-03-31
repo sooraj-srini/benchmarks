@@ -1,5 +1,5 @@
 (executables
  (names main)
- (libraries unix yojson landmarks)
+ (libraries unix yojson landmarks kcas)
  (preprocess (pps landmarks-ppx --auto))
  )
