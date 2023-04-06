@@ -1,13 +1,13 @@
 let benchmark_list =
   [
-    Bench_atomic_skiplist.bench ~workload_type:"read_heavy" ~num_elems:200_000 ~num_threads:2;
-    Bench_atomic_skiplist.bench ~workload_type:"moderate_heavy" ~num_elems:200_000 ~num_threads:2;
+    Bench_atomic_skiplist.bench ~workload_type:"read_heavy" ~num_elems:200_000 ~num_threads:6;
+    Bench_atomic_skiplist.bench ~workload_type:"moderate_heavy" ~num_elems:200_000 ~num_threads:6;
     Bench_skiplist.bench ~workload_type:"read_heavy" ~num_elems:200_000 ~num_threads:1;
     Bench_skiplist.bench ~workload_type:"moderate_heavy" ~num_elems:200_000 ~num_threads:1;
     Bench_compskiplist.bench ~workload_type:"read_heavy" ~num_elems:200_000 ~num_threads:1;
     Bench_compskiplist.bench ~workload_type:"moderate_heavy" ~num_elems:200_000 ~num_threads:1;
-    Bench_locked_skiplist.bench ~workload_type:"read_heavy" ~num_elems:200_000 ~num_threads:2;
-    Bench_locked_skiplist.bench ~workload_type:"moderate_heavy" ~num_elems:200_000 ~num_threads:2;
+    Bench_locked_skiplist.bench ~workload_type:"read_heavy" ~num_elems:200_000 ~num_threads:6;
+    Bench_locked_skiplist.bench ~workload_type:"moderate_heavy" ~num_elems:200_000 ~num_threads:6;
   ]
 
 let () =

@@ -84,7 +84,7 @@ let add sl key =
           else 
             let pred = preds.(level) in 
             let succ = succs.(level) in 
-            Mutex.try_lock pred.lock |> ignore;
+            (try Mutex.lock pred.lock with _ -> ()); 
             highestLocked := level;
             let valid = (not pred.marked) && (not succ.marked) && pred.next.(level) == succ in 
             lockLevels (level+1) valid 
@@ -121,19 +121,20 @@ let remove sl key =
     if lfound != -1 then victim := succs.(lfound);
     if !isMarked || (lfound !=(-1) && !victim.fully_linked && !victim.height == lfound && not !victim.marked) then 
       let alreadyMarked = ref false in
-      (if not !isMarked then 
-        (height := !victim.height;
-        Mutex.try_lock !victim.lock |> ignore;
-        if !victim.marked then 
-          (try Mutex.unlock !victim.lock with _ -> ();
-          alreadyMarked := true)
-      else
-        ((!victim).marked <- true;
-        isMarked := true)));
+      (if not !isMarked then (
+        height := !victim.height;
+        (try Mutex.lock !victim.lock with _ -> ());
+        if !victim.marked then (
+          try Mutex.unlock !victim.lock with _ -> ();
+          alreadyMarked := true
+        ) else (
+          !victim.marked <- true;
+          isMarked := true)
+        )
+      );
       if !alreadyMarked then false 
       else 
         let highestLocked = ref (-1) in 
-        (* Printf.printf "have I reached here!%d" !height; *)
         let finallyBlock () = 
           for level = 0 to !highestLocked do
             try Mutex.unlock preds.(level).lock with _ -> ();
@@ -144,9 +145,9 @@ let remove sl key =
             if not (valid && (level <= !height)) then valid 
             else 
               let pred = preds.(level) in 
-              Mutex.try_lock pred.lock |> ignore;
+              (try Mutex.lock pred.lock with _ -> ());
               highestLocked := level;
-              let valid = not pred.marked && pred.next.(level) == !victim in 
+              let valid = (not pred.marked) && pred.next.(level) == !victim in 
               lockLevels (level+1) valid 
           in
           let valid = lockLevels 0 true in 
@@ -155,14 +156,15 @@ let remove sl key =
             repeat ()
           )
           else
-            let rec unlockLevel level = 
+            let rec removeNode level = 
               if level < 0 then () 
               else (
                 preds.(level).next.(level) <- !victim.next.(level);
-                unlockLevel (level-1)
+                removeNode (level-1)
               )
             in
-            unlockLevel !height;
+            removeNode !height;
+            (try Mutex.unlock !victim.lock with _ -> ());
             finallyBlock ();
             true
           in 
