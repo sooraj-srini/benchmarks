@@ -38,37 +38,28 @@ let create_node key =
   let h = get_random_level () in
   { key; height = h; next = Array.init (h+1) (fun _ -> Loc.make null_node) }
 
-let rec find_in key node level preds succs = Tx.(
-  let* next_node = get node.next.(level) in
-  if
-    key > next_node.key
+let rec find_in key node level preds succs =
+  let next_node = Loc.get node.next.(level) in
+  if key > next_node.key
   then find_in key next_node level preds succs
   else (
     preds.(level) <- node;
     succs.(level) <- next_node;
-    if level == 0 then return (key == next_node.key)
+    if level == 0 then (key == next_node.key)
     else find_in key node (level - 1) preds succs)
-)
 
 let find slist key =
-  let rec find_in node level = Tx.(
-    let* next_node = get node.next.(level) in
-    if
-      key > next_node.key
-    then find_in next_node level 
-    else (
-      if level == 0 then return (key == next_node.key)
-      else find_in node (level - 1))
-  ) in 
+  let preds = Array.make (max_height+1) null_node in
+  let succs = Array.make (max_height+1) null_node in
   let h = slist.head in
-  find_in h max_height
+  Tx.return (find_in key h max_height preds succs)
 
 let add slist key = Tx.(
   let new_node = create_node key in
   let preds = Array.make (max_height+1) null_node in
   let succs = Array.make (max_height+1) null_node in
   let h = slist.head in
-  let* pres = find_in key h max_height preds succs in
+  let pres = find_in key h max_height preds succs in
   let height = new_node.height in
   let rec assign index =
     set new_node.next.(index) succs.(index) >>
@@ -82,7 +73,7 @@ let remove slist key = Tx.(
   let preds = Array.make (max_height+1) null_node in
   let succs = Array.make (max_height+1) null_node in
   let h = slist.head in
-  let* pres = find_in key h max_height preds succs in
+  let pres = find_in key h max_height preds succs in
   let rec reassign key index =
     let prev_node = preds.(index) in
     let curr_node = succs.(index) in
