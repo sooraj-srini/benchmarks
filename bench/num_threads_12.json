@@ -1,0 +1,209 @@
+{
+  "name": "lockfree",
+  "results": [
+    {
+      "name": "atomic_skiplist_read_heavy",
+      "metrics": [
+        {
+          "name": "time",
+          "value": 0.214713,
+          "units": "s",
+          "description": "median time result"
+        },
+        {
+          "name": "throughput",
+          "value": 9314765.854108,
+          "units": "item/s",
+          "description": "median throughput result"
+        }
+      ]
+    },
+    {
+      "name": "atomic_skiplist_moderate_heavy",
+      "metrics": [
+        {
+          "name": "time",
+          "value": 0.301696,
+          "units": "s",
+          "description": "median time result"
+        },
+        {
+          "name": "throughput",
+          "value": 6629188.283593,
+          "units": "item/s",
+          "description": "median throughput result"
+        }
+      ]
+    },
+    {
+      "name": "atomic_skiplist_balanced_heavy",
+      "metrics": [
+        {
+          "name": "time",
+          "value": 0.354085,
+          "units": "s",
+          "description": "median time result"
+        },
+        {
+          "name": "throughput",
+          "value": 5648361.770607,
+          "units": "item/s",
+          "description": "median throughput result"
+        }
+      ]
+    },
+    {
+      "name": "atomic_skiplist_write_heavy",
+      "metrics": [
+        {
+          "name": "time",
+          "value": 0.637819,
+          "units": "s",
+          "description": "median time result"
+        },
+        {
+          "name": "throughput",
+          "value": 3135685.574985,
+          "units": "item/s",
+          "description": "median throughput result"
+        }
+      ]
+    },
+    {
+      "name": "locked_skiplist_read_heavy",
+      "metrics": [
+        {
+          "name": "time",
+          "value": 0.227384,
+          "units": "s",
+          "description": "median time result"
+        },
+        {
+          "name": "throughput",
+          "value": 8795699.353162,
+          "units": "item/s",
+          "description": "median throughput result"
+        }
+      ]
+    },
+    {
+      "name": "locked_skiplist_moderate_heavy",
+      "metrics": [
+        {
+          "name": "time",
+          "value": 0.403687,
+          "units": "s",
+          "description": "median time result"
+        },
+        {
+          "name": "throughput",
+          "value": 4954333.428223,
+          "units": "item/s",
+          "description": "median throughput result"
+        }
+      ]
+    },
+    {
+      "name": "locked_skiplist_balanced_heavy",
+      "metrics": [
+        {
+          "name": "time",
+          "value": 0.581142,
+          "units": "s",
+          "description": "median time result"
+        },
+        {
+          "name": "throughput",
+          "value": 3441499.971692,
+          "units": "item/s",
+          "description": "median throughput result"
+        }
+      ]
+    },
+    {
+      "name": "locked_skiplist_write_heavy",
+      "metrics": [
+        {
+          "name": "time",
+          "value": 1.072348,
+          "units": "s",
+          "description": "median time result"
+        },
+        {
+          "name": "throughput",
+          "value": 1865066.400934,
+          "units": "item/s",
+          "description": "median throughput result"
+        }
+      ]
+    },
+    {
+      "name": "coarse_locked_skiplist_read_heavy",
+      "metrics": [
+        {
+          "name": "time",
+          "value": 0.478128,
+          "units": "s",
+          "description": "median time result"
+        },
+        {
+          "name": "throughput",
+          "value": 4182978.58548,
+          "units": "item/s",
+          "description": "median throughput result"
+        }
+      ]
+    },
+    {
+      "name": "coarse_locked_skiplist_moderate_heavy",
+      "metrics": [
+        {
+          "name": "time",
+          "value": 2.62424,
+          "units": "s",
+          "description": "median time result"
+        },
+        {
+          "name": "throughput",
+          "value": 762125.438136,
+          "units": "item/s",
+          "description": "median throughput result"
+        }
+      ]
+    },
+    {
+      "name": "coarse_locked_skiplist_balanced_heavy",
+      "metrics": [
+        {
+          "name": "time",
+          "value": 4.451496,
+          "units": "s",
+          "description": "median time result"
+        },
+        {
+          "name": "throughput",
+          "value": 449287.148448,
+          "units": "item/s",
+          "description": "median throughput result"
+        }
+      ]
+    },
+    {
+      "name": "coarse_locked_skiplist_write_heavy",
+      "metrics": [
+        {
+          "name": "time",
+          "value": 8.704732,
+          "units": "s",
+          "description": "median time result"
+        },
+        {
+          "name": "throughput",
+          "value": 229760.084369,
+          "units": "item/s",
+          "description": "median throughput result"
+        }
+      ]
+    }
+  ]
+}
