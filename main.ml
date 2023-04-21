@@ -1,17 +1,16 @@
 let benchmark_list =
   [
-    (* Bench_atomic_skiplist.bench ~workload_type:"read_heavy" ~num_elems:8_000_000 ~num_threads:4; *)
-    (* Bench_atomic_skiplist.bench ~workload_type:"moderate_heavy" ~num_elems:8_000_000 ~num_threads:4; *)
-    (* Bench_atomic_skiplist.bench ~workload_type:"balanced_heavy" ~num_elems:8_000_000 ~num_threads:4;
-    Bench_atomic_skiplist.bench ~workload_type:"write_heavy" ~num_elems:8_000_000 ~num_threads:4;
-    Bench_skiplist.bench ~workload_type:"read_heavy" ~num_elems:2_000_000 ~num_threads:1;
+    Bench_atomic_skiplist.bench ~workload_type:"read_heavy" ~num_elems:200_000 ~num_threads:8;
+    Bench_atomic_skiplist.bench ~workload_type:"moderate_heavy" ~num_elems:200_000 ~num_threads:8;
+    Bench_atomic_skiplist.bench ~workload_type:"balanced_heavy" ~num_elems:200_000 ~num_threads:8;
+    (* Bench_skiplist.bench ~workload_type:"read_heavy" ~num_elems:2_000_000 ~num_threads:1;
     Bench_skiplist.bench ~workload_type:"moderate_heavy" ~num_elems:2_000_000 ~num_threads:1;
     Bench_skiplist.bench ~workload_type:"balanced_heavy" ~num_elems:2_000_000 ~num_threads:1;
     Bench_skiplist.bench ~workload_type:"write_heavy" ~num_elems:2_000_000 ~num_threads:1; *)
-    Bench_compskiplist.bench ~workload_type:"read_heavy" ~num_elems:2_000_000 ~num_threads:8;
-    Bench_compskiplist.bench ~workload_type:"moderate_heavy" ~num_elems:2_000_000 ~num_threads:8;
-    Bench_compskiplist.bench ~workload_type:"balanced_heavy" ~num_elems:2_000_000 ~num_threads:8;
-    Bench_compskiplist.bench ~workload_type:"write_heavy" ~num_elems:2_000_000 ~num_threads:8;
+    Bench_compskiplist.bench ~workload_type:"read_heavy" ~num_elems:200_000 ~num_threads:8;
+    Bench_compskiplist.bench ~workload_type:"moderate_heavy" ~num_elems:200_000 ~num_threads:8;
+    Bench_compskiplist.bench ~workload_type:"balanced_heavy" ~num_elems:200_000 ~num_threads:8;
+    (* Bench_compskiplist.bench ~workload_type:"write_heavy" ~num_elems:2_000 ~num_threads:2; *)
     (* Bench_locked_skiplist.bench ~workload_type:"read_heavy" ~num_elems:2_000_000 ~num_threads:8; *)
     (* Bench_locked_skiplist.bench ~workload_type:"moderate_heavy" ~num_elems:2_000_000 ~num_threads:8; *)
     (* Bench_locked_skiplist.bench ~workload_type:"balanced_heavy" ~num_elems:2_000_000 ~num_threads:8; *)

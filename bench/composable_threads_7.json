@@ -6,13 +6,13 @@
       "metrics": [
         {
           "name": "time",
-          "value": 0.145548,
+          "value": 0.043499,
           "units": "s",
           "description": "median time result"
         },
         {
           "name": "throughput",
-          "value": 1374116.136176,
+          "value": 4597807.594493,
           "units": "item/s",
           "description": "median throughput result"
         }
@@ -23,13 +23,13 @@
       "metrics": [
         {
           "name": "time",
-          "value": 0.213056,
+          "value": 0.055233,
           "units": "s",
           "description": "median time result"
         },
         {
           "name": "throughput",
-          "value": 938721.001409,
+          "value": 3621023.55135,
           "units": "item/s",
           "description": "median throughput result"
         }
@@ -40,13 +40,13 @@
       "metrics": [
         {
           "name": "time",
-          "value": 0.269261,
+          "value": 0.064055,
           "units": "s",
           "description": "median time result"
         },
         {
           "name": "throughput",
-          "value": 742774.061815,
+          "value": 3122318.417664,
           "units": "item/s",
           "description": "median throughput result"
         }
@@ -57,13 +57,13 @@
       "metrics": [
         {
           "name": "time",
-          "value": 0.564563,
+          "value": 1.97466,
           "units": "s",
           "description": "median time result"
         },
         {
           "name": "throughput",
-          "value": 354256.278324,
+          "value": 101283.263007,
           "units": "item/s",
           "description": "median throughput result"
         }
@@ -74,13 +74,13 @@
       "metrics": [
         {
           "name": "time",
-          "value": 0.673953,
+          "value": 1.963694,
           "units": "s",
           "description": "median time result"
         },
         {
           "name": "throughput",
-          "value": 296756.678929,
+          "value": 101848.85744,
           "units": "item/s",
           "description": "median throughput result"
         }
@@ -91,13 +91,13 @@
       "metrics": [
         {
           "name": "time",
-          "value": 0.706244,
+          "value": 2.603384,
           "units": "s",
           "description": "median time result"
         },
         {
           "name": "throughput",
-          "value": 283188.249822,
+          "value": 76823.095224,
           "units": "item/s",
           "description": "median throughput result"
         }

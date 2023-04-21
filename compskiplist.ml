@@ -38,28 +38,35 @@ let create_node key =
   let h = get_random_level () in
   { key; height = h; next = Array.init (h+1) (fun _ -> Loc.make null_node) }
 
-let rec find_in key node level preds succs =
-  let next_node = Loc.get node.next.(level) in
+let rec find_in key node level preds succs = Tx.(
+  let* next_node = get node.next.(level) in
   if key > next_node.key
   then find_in key next_node level preds succs
   else (
     preds.(level) <- node;
     succs.(level) <- next_node;
-    if level == 0 then (key == next_node.key)
+    if level == 0 then return (key == next_node.key)
     else find_in key node (level - 1) preds succs)
+)
 
-let find slist key =
-  let preds = Array.make (max_height+1) null_node in
-  let succs = Array.make (max_height+1) null_node in
-  let h = slist.head in
-  Tx.return (find_in key h max_height preds succs)
+let find slist key = 
+  let head = slist.head in 
+  let rec search key node level = Tx.( 
+    let* next_node = get node.next.(level) in 
+    if key > next_node.key then search key next_node level 
+    else (
+      if level == 0 then return (key == next_node.key)
+      else search key node (level - 1) 
+    )
+  ) in 
+  search key head max_height
 
-let add slist key = Tx.(
+let add slist key = 
   let new_node = create_node key in
   let preds = Array.make (max_height+1) null_node in
   let succs = Array.make (max_height+1) null_node in
   let h = slist.head in
-  let pres = find_in key h max_height preds succs in
+  Tx.(let* pres = find_in key h max_height preds succs in
   let height = new_node.height in
   let rec assign index =
     set new_node.next.(index) succs.(index) >>
@@ -68,12 +75,11 @@ let add slist key = Tx.(
   in
   if not pres then assign height else return false
 )
-
-let remove slist key = Tx.(
+let remove slist key =
   let preds = Array.make (max_height+1) null_node in
   let succs = Array.make (max_height+1) null_node in
   let h = slist.head in
-  let pres = find_in key h max_height preds succs in
+  Tx.(let* pres = find_in key h max_height preds succs in
   let rec reassign key index =
     let prev_node = preds.(index) in
     let curr_node = succs.(index) in

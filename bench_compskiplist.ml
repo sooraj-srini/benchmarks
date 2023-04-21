@@ -8,11 +8,11 @@ let workload num_elems num_threads add remove =
       Domain.cpu_relax ();
       let prob = Random.float 1.0 in 
       if prob < add then 
-        Tx.commit (Compskiplist.add sl (Random.int 10000)) |> ignore
+        Tx.commit ~backoff:(Backoff.create ~lower_wait_log:25 ~upper_wait_log:30 ()) (Compskiplist.add sl (Random.int 10000)) |> ignore
       else if prob >= add && prob < add +. remove then 
-        Tx.commit (Compskiplist.remove sl (Random.int 10000)) |> ignore
+        Tx.commit ~backoff:(Backoff.create ~lower_wait_log:25 ~upper_wait_log:30 ()) (Compskiplist.remove sl (Random.int 10000)) |> ignore
       else 
-        Tx.commit (Compskiplist.find sl elems.(i)) |> ignore
+        Tx.commit ~backoff:(Backoff.create ~lower_wait_log:25 ~upper_wait_log:30 ()) (Compskiplist.find sl elems.(i)) |> ignore
     )
     done;
     start_time
